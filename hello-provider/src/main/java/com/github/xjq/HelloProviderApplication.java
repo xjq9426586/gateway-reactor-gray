@@ -2,13 +2,14 @@ package com.github.xjq;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-@EnableFeignClients
-public class HelloConsumerApplication {
+@EnableDiscoveryClient
+public class HelloProviderApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(HelloConsumerApplication.class,args);
+        SpringApplication.run(HelloProviderApplication.class, args);
     }
+
 }

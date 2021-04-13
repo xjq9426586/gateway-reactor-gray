@@ -43,8 +43,8 @@ public class GrayReactiveLoadBalancerClientFilter implements GlobalFilter, Order
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        URI url = (URI)exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
-        String schemePrefix = (String)exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_SCHEME_PREFIX_ATTR);
+        URI url = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
+        String schemePrefix = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_SCHEME_PREFIX_ATTR);
         if (url != null && ("grayLb".equals(url.getScheme()) || "grayLb".equals(schemePrefix))) {
             ServerWebExchangeUtils.addOriginalRequestUrl(exchange, url);
             if (log.isTraceEnabled()) {
@@ -61,7 +61,7 @@ public class GrayReactiveLoadBalancerClientFilter implements GlobalFilter, Order
                         overrideScheme = url.getScheme();
                     }
 
-                    DelegatingServiceInstance serviceInstance = new DelegatingServiceInstance((ServiceInstance)response.getServer(), overrideScheme);
+                    DelegatingServiceInstance serviceInstance = new DelegatingServiceInstance((ServiceInstance) response.getServer(), overrideScheme);
                     URI requestUrl = this.reconstructURI(serviceInstance, uri);
                     if (log.isTraceEnabled()) {
                         log.trace("LoadBalancerClientFilter url chosen: " + requestUrl);
@@ -80,7 +80,7 @@ public class GrayReactiveLoadBalancerClientFilter implements GlobalFilter, Order
     }
 
     private Mono<Response<ServiceInstance>> choose(ServerWebExchange exchange) {
-        URI uri = (URI)exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
+        URI uri = (URI) exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
         GrayLoadBalancer loadBalancer = new GrayLoadBalancer(clientFactory.getLazyProvider(uri.getHost(), ServiceInstanceListSupplier.class), uri.getHost());
         if (loadBalancer == null) {
             throw new NotFoundException("No loadbalancer available for " + uri.getHost());

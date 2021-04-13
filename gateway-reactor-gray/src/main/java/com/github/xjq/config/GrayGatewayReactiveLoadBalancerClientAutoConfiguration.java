@@ -18,14 +18,11 @@ public class GrayGatewayReactiveLoadBalancerClientAutoConfiguration {
     }
 
 
-
     @Bean
     @ConditionalOnMissingBean({GrayReactiveLoadBalancerClientFilter.class})
     public GrayReactiveLoadBalancerClientFilter grayReactiveLoadBalancerClientFilter(LoadBalancerClientFactory clientFactory, LoadBalancerProperties properties) {
         return new GrayReactiveLoadBalancerClientFilter(clientFactory, properties);
     }
-
-
 
 
 }

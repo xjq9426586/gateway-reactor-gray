@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: hello-provider
+---
+server:
+  port: 7088
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        metadata:
+          version: v1
+          weight: 1
+  profiles: dev
+
+---
+server:
+  port: 17088
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        metadata:
+          version: v2
+          weight: 8
+  profiles: prod
+
+

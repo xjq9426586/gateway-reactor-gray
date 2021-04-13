@@ -21,9 +21,7 @@ import java.util.*;
 public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
     private static final Log log = LogFactory.getLog(GrayLoadBalancer.class);
     private ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
-    private  String serviceId;
-
-
+    private String serviceId;
 
 
     public GrayLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider, String serviceId) {
@@ -37,7 +35,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
         HttpHeaders headers = (HttpHeaders) request.getContext();
         if (this.serviceInstanceListSupplierProvider != null) {
             ServiceInstanceListSupplier supplier = this.serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
-            return ((Flux)supplier.get()).next().map(list -> getInstanceResponse((List<ServiceInstance>)list, headers));
+            return ((Flux) supplier.get()).next().map(list -> getInstanceResponse((List<ServiceInstance>) list, headers));
         }
 
         return null;
@@ -46,8 +44,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
     }
 
 
-
-    private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances,HttpHeaders headers) {
+    private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances, HttpHeaders headers) {
         if (instances.isEmpty()) {
             return getServiceInstanceEmptyResponse();
         } else {
@@ -57,6 +54,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
 
     /**
      * 根据版本进行分发
+     *
      * @param instances
      * @param headers
      * @return
@@ -64,47 +62,46 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
     private Response<ServiceInstance> getServiceInstanceResponseByVersion(List<ServiceInstance> instances, HttpHeaders headers) {
         String versionNo = headers.getFirst("version");
         System.out.println(versionNo);
-        Map<String,String> versionMap = new HashMap<>();
-        versionMap.put("version",versionNo);
-        final Set<Map.Entry<String,String>> attributes =
+        Map<String, String> versionMap = new HashMap<>();
+        versionMap.put("version", versionNo);
+        final Set<Map.Entry<String, String>> attributes =
                 Collections.unmodifiableSet(versionMap.entrySet());
         ServiceInstance serviceInstance = null;
         for (ServiceInstance instance : instances) {
-            Map<String,String> metadata = instance.getMetadata();
-            if(metadata.entrySet().containsAll(attributes)){
+            Map<String, String> metadata = instance.getMetadata();
+            if (metadata.entrySet().containsAll(attributes)) {
                 serviceInstance = instance;
                 break;
             }
         }
 
-        if(ObjectUtils.isEmpty(serviceInstance)){
+        if (ObjectUtils.isEmpty(serviceInstance)) {
             return getServiceInstanceEmptyResponse();
         }
         return new DefaultResponse(serviceInstance);
     }
 
     /**
-     *
      * 根据在nacos中配置的权重值，进行分发
-     * @param instances
      *
+     * @param instances
      * @return
      */
     private Response<ServiceInstance> getServiceInstanceResponseWithWeight(List<ServiceInstance> instances) {
-        Map<ServiceInstance,Integer> weightMap = new HashMap<>();
+        Map<ServiceInstance, Integer> weightMap = new HashMap<>();
         for (ServiceInstance instance : instances) {
-            Map<String,String> metadata = instance.getMetadata();
-            System.out.println(metadata.get("version")+"-->weight:"+metadata.get("weight"));
-            if(metadata.containsKey("weight")){
-                weightMap.put(instance,Integer.valueOf(metadata.get("weight")));
+            Map<String, String> metadata = instance.getMetadata();
+            System.out.println(metadata.get("version") + "-->weight:" + metadata.get("weight"));
+            if (metadata.containsKey("weight")) {
+                weightMap.put(instance, Integer.valueOf(metadata.get("weight")));
             }
         }
         WeightMeta<ServiceInstance> weightMeta = WeightRandomUtils.buildWeightMeta(weightMap);
-        if(ObjectUtils.isEmpty(weightMeta)){
+        if (ObjectUtils.isEmpty(weightMeta)) {
             return getServiceInstanceEmptyResponse();
         }
         ServiceInstance serviceInstance = weightMeta.random();
-        if(ObjectUtils.isEmpty(serviceInstance)){
+        if (ObjectUtils.isEmpty(serviceInstance)) {
             return getServiceInstanceEmptyResponse();
         }
         System.out.println(serviceInstance.getMetadata().get("version"));

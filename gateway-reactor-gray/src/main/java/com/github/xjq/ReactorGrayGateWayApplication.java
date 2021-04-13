@@ -8,6 +8,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class ReactorGrayGateWayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ReactorGrayGateWayApplication.class,args);
+        SpringApplication.run(ReactorGrayGateWayApplication.class, args);
     }
 }

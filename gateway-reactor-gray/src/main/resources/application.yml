@@ -19,32 +19,38 @@ spring:
   application:
     name: gateway-reactor-gray
   cloud:
-     nacos:
-       discovery:
+    nacos:
+      discovery:
         server-addr: localhost:8848
-     gateway:
-       discovery:
-         locator:
-           enabled: true
-           lower-case-service-id: true
-       routes:
-         - id: hello-consumer
-           uri: grayLb://hello-consumer
-           predicates:
-              - Path=/hello/**
-          # 通过访问http://localhost:9082/test/v1,来测试权重
-         - id: hello-consumer-v1
-           uri: lb://hello-consumer
-           predicates:
-             - Path=/test/**
-             - Weight=group1, 8
-           filters:
-             - AddRequestHeader=hello, world
-         - id: hello-consumer-v2
-           uri: lb://hello-consumer
-           predicates:
-             - Path=/test/**
-             - Weight=group1, 2
-           filters:
-             - StripPrefix=1
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: hello-provider
+          uri: lb://hello-provider
+          predicates:
+            - Path=/hello-provider/**
+          filters:
+            - StripPrefix=1
+        - id: hello-consumer
+          uri: grayLb://hello-consumer
+          predicates:
+            - Path=/hello/**
+        # 通过访问http://localhost:9082/test/v1,来测试权重
+        - id: hello-consumer-v1
+          uri: lb://hello-consumer
+          predicates:
+            - Path=/test/**
+            - Weight=group1, 8
+          filters:
+            - AddRequestHeader=hello, world
+        - id: hello-consumer-v2
+          uri: lb://hello-consumer
+          predicates:
+            - Path=/test/**
+            - Weight=group1, 2
+          filters:
+            - StripPrefix=1
 
