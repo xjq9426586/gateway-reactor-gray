@@ -11,6 +11,7 @@
     <module>hello-consumer</module>
     <module>gateway-reactor-gray</module>
     <module>hello-provider</module>
+    <module>ribbon-gray</module>
   </modules>
 
   <packaging>pom</packaging>
@@ -25,7 +26,6 @@
     <spring-openfeign.version>2.2.2.RELEASE</spring-openfeign.version>
     <fastjson.version>1.2.66</fastjson.version>
     <common.lang3>3.9</common.lang3>
-    <spring-web.version>5.2.13.RELEASE</spring-web.version>
   </properties>
 
 
@@ -69,12 +69,6 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>${common.lang3}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>${spring-web.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>

@@ -1,3 +1,6 @@
+grayscale:
+  enabled: true
+  defaultVersion: v1
 spring:
   profiles:
     active: prod
@@ -28,5 +31,4 @@ spring:
           version: v2
           weight: 8
   profiles: prod
-
 
