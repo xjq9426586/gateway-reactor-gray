@@ -25,12 +25,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <exclusions>
+           <!-- <exclusions>
                 <exclusion>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
         </dependency>
 
 
@@ -43,6 +43,5 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-
     </dependencies>
 </project>

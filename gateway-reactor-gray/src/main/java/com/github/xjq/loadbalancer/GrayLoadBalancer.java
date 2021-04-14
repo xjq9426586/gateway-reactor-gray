@@ -48,7 +48,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
         if (instances.isEmpty()) {
             return getServiceInstanceEmptyResponse();
         } else {
-            return getServiceInstanceResponseWithWeight(instances);
+            return getServiceInstanceResponseByVersion(instances, headers);
         }
     }
 
@@ -60,7 +60,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      * @return
      */
     private Response<ServiceInstance> getServiceInstanceResponseByVersion(List<ServiceInstance> instances, HttpHeaders headers) {
-        String versionNo = headers.getFirst("version");
+        String versionNo = headers.getFirst("g-version");
         System.out.println(versionNo);
         Map<String, String> versionMap = new HashMap<>();
         versionMap.put("version", versionNo);
