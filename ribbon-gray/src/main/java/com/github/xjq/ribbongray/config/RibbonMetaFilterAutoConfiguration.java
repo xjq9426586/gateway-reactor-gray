@@ -11,7 +11,6 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 
 @Configuration
 @AutoConfigureBefore({RibbonClientConfiguration.class})

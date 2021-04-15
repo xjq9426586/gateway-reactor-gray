@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -32,9 +33,13 @@ public class HelloController {
     @Autowired
     private ProviderApi providerApi;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
 
     @GetMapping(value="/info")
     public Map<String,String> info() throws NacosException {
+        restTemplate.getForEntity("http://hello-provider/doSomething", String.class);
         providerApi.doSomething(new HashMap<>());
         NamingService namingService = NacosFactory.createNamingService(nacosServerAddr);
         Map<String,String> metaData = new LinkedHashMap<>();
