@@ -13,7 +13,7 @@ import java.util.Map;
  * @Date: 2021/4/13 11:04
  * @Description:
  */
-@FeignClient(name = "hello-provider")
+@FeignClient(name = "hello-provider", fallback = ProviderFallback.class)
 public interface ProviderApi {
     @RequestMapping("/doSomething")
     String doSomething(@RequestParam Map<String, Object> map);

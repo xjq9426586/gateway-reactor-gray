@@ -1,6 +1,9 @@
 grayscale:
   enabled: true
   defaultVersion: v1
+feign:
+  hystrix:
+    enabled: true
 spring:
   profiles:
     active: prod
