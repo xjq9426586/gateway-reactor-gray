@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    sentinel:
+      eager: true
+      transport:
+        dashboard: ${spring.cloud.sentinel.server-addr}
+#      datasource:
+#        ds1: # 流控规则
+#          nacos:
+#            server-addr: localhost:8848 # nacos配置中心
+#            username: nacos
+#            password: nacos
+#            dataId: application.yml
+#            namespace: public
+#            group: DEFAULT_GROUP
+#            data-type: json
+#            rule-type: flow
+#        ds2: # 降级规则
+#          nacos:
+#            server-addr: localhost:8848
+#            username: nacos
+#            password: nacos
+#            namespace: public
+#            dataId: application.yml
+#            group: DEFAULT_GROUP
+#            data-type: json
+#            rule-type: degrade
+#  application:
+#    name: err
+#server:
+#  port: 8080
+
