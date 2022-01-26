@@ -7,7 +7,7 @@ spring:
 #      datasource:
 #        ds1: # 流控规则
 #          nacos:
-#            server-addr: localhost:8848 # nacos配置中心
+#            server-addr: 101.33.202.55:8848 # nacos配置中心
 #            username: nacos
 #            password: nacos
 #            dataId: application.yml
@@ -17,7 +17,7 @@ spring:
 #            rule-type: flow
 #        ds2: # 降级规则
 #          nacos:
-#            server-addr: localhost:8848
+#            server-addr: 101.33.202.55:8848
 #            username: nacos
 #            password: nacos
 #            namespace: public

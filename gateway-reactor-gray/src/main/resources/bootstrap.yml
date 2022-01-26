@@ -24,13 +24,14 @@ spring:
       config:
         enabled: true #是否启用配置中心, 非启用走本地配置
         file-extension: yml #指定获取文件的规则 （支持格式类型properties|yaml|yml）
-        server-addr: localhost:8848 #配置中心地址
+        server-addr: 101.33.202.55:8848 #配置中心地址
         group: DEFAULT_GROUP #默认组获取 可以定义
         ext-config[0]:
           data-id: application.yml  #自定义的config配置文件（支持格式类型properties|yaml|yml）
           refresh: true       #支持自动刷新
+        namespace: test
       discovery:
-        server-addr: localhost:8848
+        server-addr: 101.33.202.55:8848
     gateway:
       discovery:
         locator:
